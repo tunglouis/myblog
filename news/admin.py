@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.db.models import Q #2
 from django.utils.translation import ugettext_lazy as _
-from .models import Categories, News #3
+from .models import Categories, News
+from .utils import CategoryFilter
 
 # Register your models here.
 @admin.register(Categories)
@@ -32,23 +33,23 @@ class CategoriesAdmin(admin.ModelAdmin):
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
     list_display = ('title', 'get_category', 'status')
-    date_hierarchy = 'created_at' #1
+    date_hierarchy = 'created_at' 
     search_fields = ['title', 'categories__name']
 
-    def get_category(self, obj): #2
+    def get_category(self, obj): 
         return obj.categories.name
 
-    get_category.short_description = _('Categories') #3
-    get_category.admin_order_field = 'category__name' #4
+    get_category.short_description = _('Categories') 
+    get_category.admin_order_field = 'category__name'
 
     list_filter = (
-        ('categories', admin.RelatedFieldListFilter), #5
+        ('categories', CategoryFilter),
     )
 
-    date_hierarchy = None #1
+    date_hierarchy = None
 
     def get_list_display(self, request):
-        if News.objects.all().count() > 0: #2
+        if News.objects.all().count() > 0:
             self.date_hierarchy = 'created_at'
         else:
             self.date_hierarchy = None
