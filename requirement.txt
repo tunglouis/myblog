@@ -1,9 +1,11 @@
 dataclasses==0.6
 Django==2.1.4
+django-jet==1.0.8
 django-jinja==2.4.1
 djongo==1.2.31
 Jinja2==2.10
 MarkupSafe==1.1.0
+Pillow==5.3.0
 pymongo==3.7.2
 pytz==2018.7
 sqlparse==0.2.4
